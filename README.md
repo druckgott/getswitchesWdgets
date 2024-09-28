@@ -1,8 +1,8 @@
 A simple widget to display switches which are configured in special function and have a PLAY_TRACK behind.
 
-![widget screenshot](docs/images/example1.png)
+![widget screenshot](doc/img/example1.png)
 
-![config screenshot](docs/images/config.png)
+![config screenshot](doc/img/config.png)
 
 # Installing
 * Copy the `src/WIDGETS/getswitches` folder to your handset's SD card in the `WIDGETS/` folder such that your SD card will end up with a file called `WIDGETS/getswitches/main.lua`.
@@ -23,4 +23,4 @@ A simple widget to display switches which are configured in special function and
 ## Whats not working
 * currently the SW1 to SW6 switches and the poti is not working. Only SA-SH (depending on your radio)
   
-![t15 config screenshot](docs/images/t15_config.png)
+![t15 config screenshot](doc/img/t15_config.png)
