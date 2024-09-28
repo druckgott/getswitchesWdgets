@@ -311,8 +311,8 @@ local function processPush(widget, switch, customFunc, switchcfgname, switch_val
     if playtrackSwitchname then
         local textOptions = SMLSIZE  -- Standardgröße
 
-        if (switchType == "u" and switch_value < 0) or 
-           (switchType == "d" and switch_value > 0) then
+        if (switchType == "u" and switch_value) or 
+           (switchType == "d" and switch_value) then
            if widget.options.aktive_color then
                 textOptions = SMLSIZE + widget.options.aktive_color
            else
@@ -348,7 +348,7 @@ Called by OpenTX when the Widget is being displayed
 local function refreshWidget(widgetToRefresh)
 
     if config_availible > 0 then
-        for key , switch in ipairs(radioCfg.sw) do
+        for _, switch in ipairs(radioCfg.sw) do
             
             if string.sub(switch.switchcfgname, 1, 2) ~= "SW" then
                 drawRoundedRectangle(switch.switchcfgpos_x, switch.switchcfgpos_y, radioCfg.switch_box_size_x, radioCfg.switch_box_size_y, radioCfg.switch_box_size_radius, COLOR_THEME_SECONDARY3, 3, COLOR_THEME_SECONDARY2)
@@ -375,15 +375,14 @@ local function refreshWidget(widgetToRefresh)
                             processSwitch(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "m", variable, radioCfg.pos_switch_offset_center)
                             processSwitch(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "d", variable, radioCfg.pos_switch_offset_down)                
                         else
-                            --lcd.drawText(0 , 0 , switchcfgname, SMLSIZE + INVERS)
-                            --lcd.drawText(0 , 20 , switch_value, SMLSIZE + INVERS)
-                            --if switch_value < 0 then 
-                            --processPush(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "u", variable, 0)
-                            --end
+                            local switch_aktiv = getSwitchValue(customFunc.switch)
+                            if switch_aktiv then 
+                                processPush(widgetToRefresh, switch, customFunc, switchcfgname, switch_aktiv, "u", variable, 0)
+                            end
                             --- nur anzeigen wenn switch nicht gedrueckt ist
-                            --if switch_value > 0 then 
-                           --processPush(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "d", variable, 0)
-                            --end
+                            if switch_aktiv then 
+                                processPush(widgetToRefresh, switch, customFunc, switchcfgname, switch_aktiv, "d", variable, 0)
+                            end
                         end
                         
                     end
