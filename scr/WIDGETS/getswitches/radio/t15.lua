@@ -30,6 +30,7 @@ return {
     { switchcfgname = "SW5", switchcfgpos_x = 260, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
     -- switch SW6
     { switchcfgname = "SW6", switchcfgpos_x = 340, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
+    
   },
   --
   widget_area_x = 480,
