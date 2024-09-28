@@ -19,7 +19,10 @@ A simple widget to display switches which are configured in special function and
   * you are wellcome to commit a config for your radio here
   * as example you can take the t15.lua config and only change the positions values and so on
   * other people can use your config then
-  
+
+## Other informations
+* If a switch have two sound file on one switch it will toggle the two ore more soundfilenames. You can change the time for toggling in the WIDGETSconfig
+
 ## Whats not working
 * currently the SW1 to SW6 switches and the poti is not working. Only SA-SH (depending on your radio)
   
