@@ -19,17 +19,17 @@ return {
     --{ switchcfgname = "SH", switchcfgpos_x = 150, switchcfgpos_y = 160, u = CHAR_UP, d = CHAR_DOWN },
     -----------------------------------------------------------------------------------------------------
     -- switch SW1
-    --{ switchcfgname = "SW1", switchcfgpos_x = 80, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
+    { switchcfgname = "SW1", switchcfgpos_x = 80, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
     -- switch SW2
-    --{ switchcfgname = "SW2", switchcfgpos_x = 160, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
+    { switchcfgname = "SW2", switchcfgpos_x = 160, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
     -- switch SW3
-    --{ switchcfgname = "SW3", switchcfgpos_x = 160, switchcfgpos_y = 225, u = CHAR_UP, d = CHAR_DOWN },
+    { switchcfgname = "SW3", switchcfgpos_x = 160, switchcfgpos_y = 225, u = CHAR_UP, d = CHAR_DOWN },
     -- switch SW4
-    --{ switchcfgname = "SW4", switchcfgpos_x = 260, switchcfgpos_y = 225, u = CHAR_UP, d = CHAR_DOWN },
+    { switchcfgname = "SW4", switchcfgpos_x = 260, switchcfgpos_y = 225, u = CHAR_UP, d = CHAR_DOWN },
     -- switch SW5
-    --{ switchcfgname = "SW5", switchcfgpos_x = 260, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
+    { switchcfgname = "SW5", switchcfgpos_x = 260, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
     -- switch SW6
-    --{ switchcfgname = "SW6", switchcfgpos_x = 340, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
+    { switchcfgname = "SW6", switchcfgpos_x = 340, switchcfgpos_y = 250, u = CHAR_UP, d = CHAR_DOWN },
     
   },
   --

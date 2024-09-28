@@ -4,6 +4,7 @@ local radioCfg
 local cachedgetCustomFunction = {}
 local lastToggleTime = 0  -- Speichert den letzten Umschaltzeitpunkt
 local config_availible = 0
+local last_model= nil
 --local toggleInterval = 100  -- 2 Sekunden in EdgeTX-Zeit (1/100 Sekunden)
 
 -- Create a table with default options
@@ -70,7 +71,8 @@ end
 
 local function cacheCustomFunctions()
     local nameCount = {}
-
+    -- leer machen, damit wenn bei einem Modellwechsel die Tabelle wieder leer ist
+    cachedgetCustomFunction = {}
     --local f = io.open(path .. "log.txt", "w")
 
     for i = 0, 63 do
@@ -114,8 +116,6 @@ local function cacheCustomFunctions()
                     sound_name_tab_aktive = {1}
                 }
             end
-        else
-            --cachedgetCustomFunction[i] = nil
         end
 
     end
@@ -183,7 +183,6 @@ local function loadBMap (img)
   end
   return bm
 end
-
 -- Drawing function for rounded rectangle
 local function drawRoundedRectangle(x, y, width, height, r, color, shadowOffset, shadowColor)
     -- Check if shadow parameters are provided
@@ -206,14 +205,13 @@ local function drawRoundedRectangle(x, y, width, height, r, color, shadowOffset,
     lcd.drawFilledCircle(x + width - r - 1, y + height - r - 1, r, color)
 end
 
-local function display_SF(variable, switchinputname)
-    local customFunc = cachedgetCustomFunction[variable]
-    
-    if not customFunc or customFunc.switch == 0 then
-        return nil
-    end
-
-    if customFunctionNames[customFunc.func] == "PLAY_TRACK" and getSwitchName(customFunc.switch) == switchinputname then
+local function display_SF(customFunc, switchinputname)
+    --if not customFunc or customFunc.switch == 0 then
+    --    return nil
+    --end
+    -- prueft ob es ein Play Track ist und zusaetzlich ob die schalterid aus der Configtabelle zu der schalterid passt der in der Inputtabelle enthalten ist
+    if customFunctionNames[customFunc.func] == "PLAY_TRACK" and customFunc.switch == getSwitchIndex(switchinputname) then
+    --if customFunctionNames[customFunc.func] == "PLAY_TRACK" and getSwitchName(customFunc.switch) == switchinputname then
         -- Überprüfe, ob sound_name_tab und sound_name_tab_aktive existieren
         if customFunc.sound_name_tab and customFunc.sound_name_tab_aktive then
             -- Durchlaufe die sound_name_tab_aktive Tabelle und finde den aktuellen aktiven Wert
@@ -250,69 +248,78 @@ local function toggleSoundNameTab(toggleInterval, customFunc)
 
         -- Aktualisiere den letzten Umschaltzeitpunkt
         lastToggleTime = currentTime
-        print("mehr als 1 gefunden" .. customFunc.sound_name_tab_aktive[1] .. " " .. customFunc.sound_name_tab_aktive[2])
     end
 end
 
 
 -- Funktion zum Erstellen des Schalternamens und Zeichnen des Textes
 local function processSwitch(widget, switch, customFunc, switchcfgname, switch_value, switchType, variable, offsetY)
+    
+    if not customFunc or customFunc.switch == 0 then
+        return nil
+    end
+
     local switchPos = switch[switchType]
 
-    -- Schalte die Anzeige um, wenn mehrere Namen vorhanden sind
-    toggleSoundNameTab(widget.options.toggleInterval, customFunc)
+        local playtrackSwitchname = switchPos and display_SF(customFunc, switchcfgname .. switchPos) or nil
+        --local playtrackSwitchname = switchPos and display_SF(variable, switchcfgname .. switchPos) or nil
 
-    local playtrackSwitchname = switchPos and display_SF(variable, switchcfgname .. switchPos) or nil
+        if playtrackSwitchname then
+        -- Schalte die Anzeige um, wenn mehrere Namen vorhanden sind
+        toggleSoundNameTab(widget.options.toggleInterval, customFunc)
+            local textOptions = SMLSIZE  -- Standardgröße
 
-    if playtrackSwitchname then
-        local textOptions = SMLSIZE  -- Standardgröße
+            if (switchType == "u" and switch_value < 0) or 
+               (switchType == "m" and switch_value == 0) or 
+               (switchType == "d" and switch_value > 0) then
+               if widget.options.aktive_color then
+                    textOptions = SMLSIZE + widget.options.aktive_color
+               else
+                    textOptions = SMLSIZE + COLOR_THEME_FOCUS
+               end
+            end
+        
+            -- Entfernen der ersten zwei Zeichen von switchcfgname
+            switchcfgname = string.sub(switchcfgname, 3)
 
-        if (switchType == "u" and switch_value < 0) or 
-           (switchType == "m" and switch_value == 0) or 
-           (switchType == "d" and switch_value > 0) then
-           if widget.options.aktive_color then
-                textOptions = SMLSIZE + widget.options.aktive_color
-           else
-                textOptions = SMLSIZE + COLOR_THEME_FOCUS
-           end
+            -- Bestimme das Zeichen basierend auf switchType
+            local switchChar = ""
+            if switchType == "u" then
+                switchChar = CHAR_UP
+            elseif switchType == "m" then
+                switchChar = "-"  -- Strich für die mittlere Position
+            elseif switchType == "d" then
+                switchChar = CHAR_DOWN
+            end
+
+            -- Erstelle den Text
+            local text = switchcfgname .. " " .. switchChar .. playtrackSwitchname
+            local w_text, h_text = lcd.sizeText(text, textOptions)
+            -- Zeichne den Text
+            lcd.drawText(switch.switchcfgpos_x + (radioCfg.switch_box_size_x - w_text) / 2, switch.switchcfgpos_y + offsetY, text, textOptions)
+            
         end
-    
-        -- Entfernen der ersten zwei Zeichen von switchcfgname
-        switchcfgname = string.sub(switchcfgname, 3)
-
-        -- Bestimme das Zeichen basierend auf switchType
-        local switchChar = ""
-        if switchType == "u" then
-            switchChar = CHAR_UP
-        elseif switchType == "m" then
-            switchChar = "-"  -- Strich für die mittlere Position
-        elseif switchType == "d" then
-            switchChar = CHAR_DOWN
-        end
-
-        -- Erstelle den Text
-        local text = switchcfgname .. " " .. switchChar .. playtrackSwitchname
-        local w_text, h_text = lcd.sizeText(text, textOptions)
-        -- Zeichne den Text
-        lcd.drawText(switch.switchcfgpos_x + (radioCfg.switch_box_size_x - w_text) / 2, switch.switchcfgpos_y + offsetY, text, textOptions)
-    end
 end
 
 
 -- Funktion zum Erstellen des Schalternamens und Zeichnen des Textes
 local function processPush(widget, switch, customFunc, switchcfgname, switch_value, switchType, variable, offsetY)
+    if not customFunc or customFunc.switch == 0 then
+        return nil
+    end
+
     local switchPos = switch[switchType]
 
+    local playtrackSwitchname = switchPos and display_SF(customFunc, switchcfgname .. switchPos) or nil
+    --local playtrackSwitchname = switchPos and display_SF(variable, switchcfgname .. switchPos) or nil
+    if playtrackSwitchname then
     -- Schalte die Anzeige um, wenn mehrere Namen vorhanden sind
     toggleSoundNameTab(widget.options.toggleInterval, customFunc)
-
-    local playtrackSwitchname = switchPos and display_SF(variable, switchcfgname .. switchPos) or nil
-
-    if playtrackSwitchname then
+    
         local textOptions = SMLSIZE  -- Standardgröße
 
-        if (switchType == "u" and switch_value < 0) or 
-           (switchType == "d" and switch_value > 0) then
+        if (switchType == "u" and switch_value) or 
+           (switchType == "d" and switch_value) then
            if widget.options.aktive_color then
                 textOptions = SMLSIZE + widget.options.aktive_color
            else
@@ -330,7 +337,7 @@ local function processPush(widget, switch, customFunc, switchcfgname, switch_val
         elseif switchType == "d" then
             switchChar = CHAR_DOWN
         end
-
+        
         -- Erstelle den Text
         local text = switchcfgname .. " " .. switchChar .. playtrackSwitchname
         local w_text, h_text = lcd.sizeText(text, textOptions)
@@ -345,10 +352,20 @@ FUNCTION: refresh
 Called by OpenTX when the Widget is being displayed
 ==================================================
 --]]
+
 local function refreshWidget(widgetToRefresh)
+local offset_counter = 1
+
+--- bei einem Modellwechsel, muss die Special Function Liste neu gelesen werden
+if last_model ~= model.getInfo().name then
+    --print("Model switched:" .. model.getInfo().name)
+    cacheCustomFunctions()
+    last_model = model.getInfo().name
+    return
+end
 
     if config_availible > 0 then
-        for key , switch in ipairs(radioCfg.sw) do
+        for _, switch in ipairs(radioCfg.sw) do
             
             if string.sub(switch.switchcfgname, 1, 2) ~= "SW" then
                 drawRoundedRectangle(switch.switchcfgpos_x, switch.switchcfgpos_y, radioCfg.switch_box_size_x, radioCfg.switch_box_size_y, radioCfg.switch_box_size_radius, COLOR_THEME_SECONDARY3, 3, COLOR_THEME_SECONDARY2)
@@ -371,26 +388,24 @@ local function refreshWidget(widgetToRefresh)
 
                         if string.sub(switch.switchcfgname, 1, 2) ~= "SW" then
                             -- Zeichne den Text für die verschiedenen Schalterpositionen
-                            processSwitch(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "u", variable, radioCfg.pos_switch_offset_up)
-                            processSwitch(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "m", variable, radioCfg.pos_switch_offset_center)
-                            processSwitch(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "d", variable, radioCfg.pos_switch_offset_down)                
+                                processSwitch(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "u", variable, radioCfg.pos_switch_offset_up)
+                                processSwitch(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "m", variable, radioCfg.pos_switch_offset_center)
+                                processSwitch(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "d", variable, radioCfg.pos_switch_offset_down)
                         else
-                            --lcd.drawText(0 , 0 , switchcfgname, SMLSIZE + INVERS)
-                            --lcd.drawText(0 , 20 , switch_value, SMLSIZE + INVERS)
-                            --if switch_value < 0 then 
-                            --processPush(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "u", variable, 0)
-                            --end
+                            local switch_aktiv = getSwitchValue(customFunc.switch)
+                            if switch_aktiv then 
+                                processPush(widgetToRefresh, switch, customFunc, switchcfgname, switch_aktiv, "u", variable, 0)
+                            end
                             --- nur anzeigen wenn switch nicht gedrueckt ist
-                            --if switch_value > 0 then 
-                           --processPush(widgetToRefresh, switch, customFunc, switchcfgname, switch_value, "d", variable, 0)
-                            --end
+                            if switch_aktiv then 
+                                processPush(widgetToRefresh, switch, customFunc, switchcfgname, switch_aktiv, "d", variable, 0)
+                            end
                         end
                         
                     end
                 end
         end
 
-        --display_SF_header()
         lcd.drawRectangle(0, 0, radioCfg.widget_area_x, radioCfg.widget_area_y, RED)
     else
         lcd.drawText(10 , 10 , "no config found, please generate one with name: ", SMLSIZE + INVERS)
