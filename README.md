@@ -9,7 +9,7 @@ A simple widget to display switches which are configured in special function and
 * Add the widget to the main screen
   * Press the TELEM button on the handset and navigate to the second page.
   * Tap "Setup widgets".
-  * Tap an open space and add the "SwitchOverview" widget.
+  * Tap an open space and add the "SwitchOver" widget.
   * Use the RTN / EXIT button to go back until you're on the main screen again.
 
 ## Requirements

@@ -398,4 +398,4 @@ local function refreshWidget(widgetToRefresh)
     end
 end
 
-return { name="SwitchOverview", options=defaultOptions, create=createWidget, update=updateWidget, refresh=refreshWidget, background=backgroundProcessWidget }
+return { name="SwitchOver", options=defaultOptions, create=createWidget, update=updateWidget, refresh=refreshWidget, background=backgroundProcessWidget }
