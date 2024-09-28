@@ -22,8 +22,5 @@ A simple widget to display switches which are configured in special function and
 
 ## Other informations
 * If a switch have two sound file on one switch it will toggle the two ore more soundfilenames. You can change the time for toggling in the WIDGETSconfig
-
-## Whats not working
-* currently the SW1 to SW6 switches and the poti is not working. Only SA-SH (depending on your radio)
   
 ![t15 config screenshot](doc/img/t15_config.png)
