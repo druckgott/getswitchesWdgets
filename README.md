@@ -13,10 +13,10 @@ A simple widget to display switches which are configured in special function and
   * Use the RTN / EXIT button to go back until you're on the main screen again.
 
 ## Requirements
-* Tested on Jumper T15 with EdgeTX 2.6 only
-* Currently there is a config File for Jumper T15, you are wellcome to generate your own config file WIDGETS\getswitches\radio.
+* Tested on Jumper T15 with EdgeTX 2.10.4 only
+* Currently there is a config File for Jumper T15, you are welcome to generate your own config file WIDGETS\getswitches\radio.
   * the name will be shown if you have no config
-  * you are wellcome to commit a config for your radio here
+  * you are welcome to commit a config for your radio here
   * as example you can take the t15.lua config and only change the positions values and so on
   * other people can use your config then
 
