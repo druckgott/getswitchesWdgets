@@ -78,7 +78,7 @@ local function cacheCustomFunctions()
     for i = 0, 63 do
         local mySF = model.getCustomFunction(i)
 
-        if mySF and mySF.switch ~= 0 then
+        if mySF and mySF.switch ~= 0 and mySF.active ~= 0 then
 
             -- Zähle die Anzahl der Vorkommen des Schalternamens
             if nameCount[mySF.switch] then
