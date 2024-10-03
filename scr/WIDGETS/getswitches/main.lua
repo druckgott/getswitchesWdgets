@@ -255,7 +255,7 @@ end
 -- Funktion zum Erstellen des Schalternamens und Zeichnen des Textes
 local function processSwitch(widget, switch, customFunc, switchcfgname, switch_value, switchType, variable, offsetY)
     
-    if not customFunc or customFunc.switch == 0 then
+    if not customFunc or customFunc.switch == 0 or customFunc.active == 0 then
         return nil
     end
 
@@ -304,7 +304,7 @@ end
 
 -- Funktion zum Erstellen des Schalternamens und Zeichnen des Textes
 local function processPush(widget, switch, customFunc, switchcfgname, switch_value, switchType, variable, offsetY)
-    if not customFunc or customFunc.switch == 0 then
+    if not customFunc or customFunc.switch == 0 or customFunc.active == 0 then
         return nil
     end
 
