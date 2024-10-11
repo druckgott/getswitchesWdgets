@@ -22,5 +22,6 @@ A simple widget to display switches which are configured in special function and
 
 ## Other informations
 * If a switch have two sound file on one switch it will toggle the two ore more soundfilenames. You can change the time for toggling in the WIDGETS config
-  
+* Radio config is already done for T15, here is the example:
+    
 ![t15 config screenshot](doc/img/t15_config.png)
