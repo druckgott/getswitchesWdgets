@@ -14,7 +14,7 @@ A simple widget to display switches which are configured in special function and
 
 ## Requirements
 * Tested on Jumper T15 with EdgeTX 2.10.4 only
-* Currently, there is a config file for Jumper T15. You are welcome to generate your own config file WIDGETS\getswitches\radio.
+* Currently, there is a config file for Jumper T15 and Radiomaster tx16s. You are welcome to generate your own config file WIDGETS\getswitches\radio.
   * the name will be shown if you have no config
   * you are welcome to commit a config for your radio here
   * as example you can take the t15.lua config and only change the position values and so on
@@ -22,6 +22,6 @@ A simple widget to display switches which are configured in special function and
 
 ## Other informations
 * If a switch have two sound file on one switch it will toggle the two ore more soundfilenames. You can change the time for toggling in the WIDGETS config
-* Radio config is already done for T15, here is the example:
+* Radio config is already done for T15 and tx16s, here is the example of T15:
     
 ![t15 config screenshot](doc/img/t15_config.png)
