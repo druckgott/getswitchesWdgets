@@ -2,13 +2,13 @@ return {
   -- Tabelle für die Switches
   sw = {
     -- switch A
-    { switchcfgname = "SA", switchcfgpos_x = 20, switchcfgpos_y = 140, u = CHAR_UP, m = '-', d = CHAR_DOWN },
+    { switchcfgname = "SA", switchcfgpos_x = 20, switchcfgpos_y = 120, u = CHAR_UP, m = '-', d = CHAR_DOWN },
     -- switch B
-    { switchcfgname = "SB", switchcfgpos_x = 360, switchcfgpos_y = 140, u = CHAR_UP, m = '-', d = CHAR_DOWN },
+    { switchcfgname = "SB", switchcfgpos_x = 135, switchcfgpos_y = 100, u = CHAR_UP, m = '-', d = CHAR_DOWN },
     -- switch C
-    { switchcfgname = "SC", switchcfgpos_x = 100, switchcfgpos_y = 80, u = CHAR_UP, m = '-', d = CHAR_DOWN },
+    { switchcfgname = "SC", switchcfgpos_x = 245, switchcfgpos_y = 100, u = CHAR_UP, m = '-', d = CHAR_DOWN },
     -- switch D
-    { switchcfgname = "SD", switchcfgpos_x = 280, switchcfgpos_y = 80, u = CHAR_UP, m = '-', d = CHAR_DOWN },
+    { switchcfgname = "SD", switchcfgpos_x = 360, switchcfgpos_y = 120, u = CHAR_UP, m = '-', d = CHAR_DOWN },
     -- switch E
     { switchcfgname = "SE", switchcfgpos_x = 20, switchcfgpos_y = 20, u = CHAR_UP, d = CHAR_DOWN },
     -- switch F
